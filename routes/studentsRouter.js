@@ -1,8 +1,8 @@
 import express from "express";
-const studentsRouter = express.Router()
+const studentsRouter = express.Router();
+import { loginStudent, registerStudent } from "../controllers/studentsCont.js";
 
-studentsRouter.get("/", (req,res) => {
-    res.send("the students router")
-})
+studentsRouter.post("/register",registerStudent)
+studentsRouter.get("/login",loginStudent)
 
 export default studentsRouter;

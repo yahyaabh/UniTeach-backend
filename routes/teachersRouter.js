@@ -1,8 +1,8 @@
 import express from "express"
 const teachersRouter = express.Router();
+import {registerTeacher,loginTeacher} from "../controllers/teachersCont.js"
 
-teachersRouter.get("/", (req,res) => {
-    res.send("the teachers router")
-})
+teachersRouter.post("/register", registerTeacher)
+teachersRouter.get("/login", loginTeacher)
 
 export default teachersRouter;

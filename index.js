@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import client from "./db/connect.js";
+
 import bodyParser from "body-parser";
 import studentsRouter from "./routes/studentsRouter.js";
 import teachersRouter from "./routes/teachersRouter.js";
