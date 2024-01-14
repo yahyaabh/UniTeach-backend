@@ -46,4 +46,19 @@ const loginStudent = async (req,res) => {
     
 }
 
-export {registerStudent, loginStudent}
+const addNeeds = async (req,res) => {
+        const number = req.body.number;  
+        const message = req.body.message;
+        
+        await pool.query(`UPDATE users SET needs = '${message}' WHERE number = '${number}';`,(error,results) =>{
+            if(results.rowCount == 0) {
+                res.status(401).send({message: "an error occured please try again later."})
+            }
+            else {
+                res.status(200).send({message: "Your needs have been added."})
+            }
+        });
+        
+}
+
+export {registerStudent, loginStudent, addNeeds}

@@ -44,4 +44,18 @@ const loginTeacher = async (req,res) => {
     
 }
 
-export {registerTeacher, loginTeacher}
+const addSkills = async (req,res) => {
+    const number = req.body.number;
+    const message = req.body.message;
+
+    await pool.query(`UPDATE users SET skills = '${message}' WHERE number = '${number}';`,(error,results) =>{
+        if(results.rowCount == 0) {
+            res.status(401).send({message: "an error occured please try again later."})
+        }
+        else {
+            res.status(200).send({message: "Your needs have been added."})
+        }
+    });
+}
+
+export {registerTeacher, loginTeacher, addSkills}
