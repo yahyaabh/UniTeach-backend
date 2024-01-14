@@ -58,4 +58,21 @@ const addSkills = async (req,res) => {
     });
 }
 
-export {registerTeacher, loginTeacher, addSkills}
+const searchStudents = async (req,res) => {
+    const message = req.body.message;
+    
+
+    await pool.query(`SELECT * FROM USERS WHERE needs % '${message}';`,(error,results) => {
+        if(error) {
+            throw error
+        }
+        else if(results.rowCount == 0) {
+            res.status(200).send({message:"no results"})
+        }
+        else {
+            res.status(200).send(results.rows)
+        }
+    })
+
+}
+export {registerTeacher, loginTeacher, addSkills, searchStudents}
