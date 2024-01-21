@@ -8,15 +8,21 @@ const registerUser = async (req,res) =>{
     const gender = req.body.gender;
     //about the data types checking it is in the frontend
     //for updating data later on we are gonna use the pass and id stored in session for verfication
+
+    const num = await  pool.query(`SELECT exists(SELECT number FROM USERS WHERE NUMBER = '${number}') AS "exists";`);
     
+    if(num.rows[0].exists == true) {
+        res.send({message:"user with number already exists"})
+    }
+
     await pool.query(`INSERT INTO USERS (name,number,password,location,gender) VALUES ('${name}','${number}','${password}','${location}','${gender}');`,
     
     (error,results) => {
         if (error) {
             throw error.message
-        }
+     }
 
-        res.status(200).send(results.rows)
+        res.status(200).send({message:"user created succesfully"})
     })
     
    
