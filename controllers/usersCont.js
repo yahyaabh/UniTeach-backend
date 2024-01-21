@@ -32,19 +32,33 @@ const loginUser = async (req,res) => {
     const number = req.body.number;
     const password = req.body.password;
 
-    const pass = (await pool.query(`SELECT password FROM USERS WHERE number='${number}';`)).rows[0].password;
-    const id = (await pool.query(`SELECT id FROM USERS WHERE number='${number}';`)).rows[0].id;
+    //check if pass exist bcz if no number also doesnt exist
+    const num = await  pool.query(`SELECT exists(SELECT number FROM USERS WHERE NUMBER = '${number}') AS "exists";`);
+    
+    //if not send bad request
+    if(num.rows[0].exists == false ) {
+        res.status(400).send({message:"user is not registered"})
+    }
+    //if yes
+    else if (num.rows[0].exists == true ) {
+        const pass = (await pool.query(`SELECT password FROM USERS WHERE number='${number}';`)).rows[0].password;
+        const id = (await pool.query(`SELECT id FROM USERS WHERE number='${number}';`)).rows[0].id;
+
+        if (password != pass) {
+            res.status(401).send({message: "password is wrong please try again!"})
+        }
+        else {
+            res.status(200).send({
+                id: id,
+                number:number,
+                password:password
+            })
+    }
+
+    
     
 
-    if (password != pass) {
-        res.status(401).send({message: "password is wrong please try again!"})
-    }
-    else {
-        res.status(200).send({
-            id: id,
-            number:number,
-            password:password
-        })
+    
 
        
     }
