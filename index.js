@@ -2,8 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 
 import bodyParser from "body-parser";
-import studentsRouter from "./routes/studentsRouter.js";
-import teachersRouter from "./routes/teachersRouter.js";
+import usersRouter from "./routes/usersRouter.js";
 
 dotenv.config();
 
@@ -14,9 +13,8 @@ const app = express();
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:false}))
 
-//my two routes
-app.use("/teachers",teachersRouter)
-app.use("/students",studentsRouter)
+//my route
+app.use("/",usersRouter)
 
 app.listen(port , () => {
     console.log(`the app is listening on ${port}`)

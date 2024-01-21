@@ -1,6 +1,6 @@
 import pool from "../db/connect.js";
 
-const registerTeacher = async (req,res) => {
+const registerUser = async (req,res) =>{
     const name = req.body.name;
     const number = req.body.number;
     const password = req.body.password;
@@ -19,10 +19,10 @@ const registerTeacher = async (req,res) => {
         res.status(200).send(results.rows)
     })
     
-    
+   
 }
 
-const loginTeacher = async (req,res) => {
+const loginUser = async (req,res) => {
     const number = req.body.number;
     const password = req.body.password;
 
@@ -39,30 +39,47 @@ const loginTeacher = async (req,res) => {
             number:number,
             password:password
         })
+
+       
     }
 
     
 }
 
+const addNeeds = async (req,res) => {
+        const number = req.body.number;  
+        const message = req.body.message;
+        
+        await pool.query(`UPDATE users SET needs = '${message}' WHERE number = '${number}';`,(error,results) =>{
+            if(results.rowCount == 0) {
+                res.status(401).send({message: "an error occured please try again later."})
+            }
+            else {
+                res.status(200).send({message: "Your needs have been added."})
+            }
+        });
+        
+}
 const addSkills = async (req,res) => {
-    const number = req.body.number;
-    const message = req.body.message;
-
-    await pool.query(`UPDATE users SET skills = '${message}' WHERE number = '${number}';`,(error,results) =>{
-        if(results.rowCount == 0) {
-            res.status(401).send({message: "an error occured please try again later."})
-        }
-        else {
-            res.status(200).send({message: "Your needs have been added."})
-        }
-    });
+        const number = req.body.number;  
+        const message = req.body.message;
+        
+        await pool.query(`UPDATE users SET skills = '${message}' WHERE number = '${number}';`,(error,results) =>{
+            if(results.rowCount == 0) {
+                res.status(401).send({message: "an error occured please try again later."})
+            }
+            else {
+                res.status(200).send({message: "Your needs have been added."})
+            }
+        });
+        
 }
 
-const searchStudents = async (req,res) => {
+const searchUsers = async (req,res) =>{
     const message = req.body.message;
     
 
-    await pool.query(`SELECT * FROM USERS WHERE needs % '${message}';`,(error,results) => {
+    await pool.query(`SELECT * FROM USERS WHERE skills % '${message}' AND needs % '${message}';`,(error,results) => {
         if(error) {
             throw error
         }
@@ -73,6 +90,6 @@ const searchStudents = async (req,res) => {
             res.status(200).send(results.rows)
         }
     })
-
 }
-export {registerTeacher, loginTeacher, addSkills, searchStudents}
+
+export {registerUser, loginUser, addNeeds, searchUsers, addSkills}
