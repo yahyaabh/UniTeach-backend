@@ -12,9 +12,9 @@ const registerUser = async (req,res) =>{
     const num = await  pool.query(`SELECT exists(SELECT number FROM USERS WHERE NUMBER = '${number}') AS "exists";`);
     
     if(num.rows[0].exists == true) {
-        res.send({message:"user with number already exists"})
+         res.status(400).send({message:"number already used."})
     }
-
+    else{
     await pool.query(`INSERT INTO USERS (name,number,password,location,gender) VALUES ('${name}','${number}','${password}','${location}','${gender}');`,
     
     (error,results) => {
@@ -25,7 +25,7 @@ const registerUser = async (req,res) =>{
         res.status(200).send({message:"user created succesfully"})
     })
     
-   
+}
 }
 
 const loginUser = async (req,res) => {
