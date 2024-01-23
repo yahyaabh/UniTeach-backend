@@ -17,12 +17,12 @@ const registerUser = async (req,res) =>{
     else{
     await pool.query(`INSERT INTO USERS (name,number,password,location,gender) VALUES ('${name}','${number}','${password}','${location}','${gender}');`,
     
-    (error,results) => {
+    async (error,results) => {
         if (error) {
             throw error.message
      }
-
-        res.status(200).send({message:"user created succesfully"})
+        const id = (await pool.query(`SELECT id FROM USERS WHERE number='${number}';`)).rows[0].id;
+        res.status(200).json({id: id})
     })
     
 }
@@ -48,10 +48,9 @@ const loginUser = async (req,res) => {
             res.status(401).send({message: "password is wrong please try again!"})
         }
         else {
-            res.status(200).send({
+            res.status(200).json({
                 id: id,
-                number:number,
-                password:password
+                
             })
     }
 
