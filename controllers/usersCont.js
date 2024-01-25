@@ -111,4 +111,16 @@ const searchUsers = async (req,res) =>{
     })
 }
 
-export {registerUser, loginUser, addNeeds, searchUsers, addSkills}
+const getInfo = async(req,res) => {
+    const id = req.body.id;
+    await pool.query(`SELECT * FROM USERS WHERE id = '${id}';`, (error,results) => {
+        if(error) {
+            throw error
+        }
+        else {
+            res.status(200).json(results.rows[0])
+        }
+    })
+}
+
+export {registerUser, loginUser, addNeeds, searchUsers, addSkills, getInfo}
