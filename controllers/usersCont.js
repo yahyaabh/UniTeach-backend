@@ -66,10 +66,10 @@ const loginUser = async (req,res) => {
 }
 
 const addNeeds = async (req,res) => {
-        const number = req.body.number;  
+        const id = req.body.id;  
         const message = req.body.message;
         
-        await pool.query(`UPDATE users SET needs = '${message}' WHERE number = '${number}';`,(error,results) =>{
+        await pool.query(`UPDATE users SET needs = '${message}' WHERE id = '${id}';`,(error,results) =>{
             if(results.rowCount == 0) {
                 res.status(401).send({message: "an error occured please try again later."})
             }
@@ -80,15 +80,15 @@ const addNeeds = async (req,res) => {
         
 }
 const addSkills = async (req,res) => {
-        const number = req.body.number;  
+        const id = req.body.id;  
         const message = req.body.message;
         
-        await pool.query(`UPDATE users SET skills = '${message}' WHERE number = '${number}';`,(error,results) =>{
+        await pool.query(`UPDATE users SET skills = '${message}' WHERE id = '${id}';`,(error,results) =>{
             if(results.rowCount == 0) {
                 res.status(401).send({message: "an error occured please try again later."})
-            }
+            }   
             else {
-                res.status(200).send({message: "Your needs have been added."})
+                res.status(200).send({message: "Your skills have been added."})
             }
         });
         
@@ -102,11 +102,9 @@ const searchUsers = async (req,res) =>{
         if(error) {
             throw error
         }
-        else if(results.rowCount == 0) {
-            res.status(200).send({message:"no results"})
-        }
+        
         else {
-            res.status(200).send(results.rows)
+            res.status(200).json(results.rows)  
         }
     })
 }

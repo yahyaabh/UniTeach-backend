@@ -6,7 +6,7 @@ usersRouter.post("/register",registerUser)
 usersRouter.post("/login",loginUser)
 usersRouter.post("/add/needs", addNeeds)
 usersRouter.post("/add/skills", addSkills)
-usersRouter.get("/search", searchUsers)
+usersRouter.post("/search", searchUsers)
 usersRouter.post("/getInfo", getInfo)
 
 export default usersRouter;
