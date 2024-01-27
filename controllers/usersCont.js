@@ -88,7 +88,7 @@ const addSkills = async (req,res) => {
                 res.status(401).send({message: "an error occured please try again later."})
             }   
             else {
-                res.status(200).send({message: "Your skills have been added."})
+                res.status(200).send({message: "Your skills  have been added."})
             }
         });
         
