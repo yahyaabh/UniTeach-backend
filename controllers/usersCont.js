@@ -98,7 +98,7 @@ const searchUsers = async (req,res) =>{
     const message = req.body.message;
     
 
-    await pool.query(`SELECT * FROM USERS WHERE skills % '${message}' AND needs % '${message}';`,(error,results) => {
+    await pool.query(`SELECT * FROM USERS WHERE skills % '${message}' OR needs % '${message}';`,(error,results) => {
         if(error) {
             throw error
         }
