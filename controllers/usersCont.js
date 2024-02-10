@@ -98,7 +98,7 @@ const searchSkills = async (req,res) =>{
     const message = req.body.message;
     
 
-    await pool.query(`SELECT * FROM USERS WHERE skills WHERE to_tsvector(skills) @@ to_tsquery('${message}');`,(error,results) => {
+    await pool.query(`SELECT * FROM USERS WHERE to_tsvector(skills) @@ to_tsquery('${message}');`,(error,results) => {
         if(error) {
             throw error
         }
@@ -112,7 +112,7 @@ const searchNeeds = async (req,res) =>{
     const message = req.body.message;
     
 
-    await pool.query(`SELECT * FROM USERS WHERE needs WHERE to_tsvector(needs) @@ to_tsquery('${message}');`,(error,results) => {
+    await pool.query(`SELECT * FROM USERS WHERE to_tsvector(needs) @@ to_tsquery('${message}');`,(error,results) => {
         if(error) {
             throw error
         }
