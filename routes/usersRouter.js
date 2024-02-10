@@ -1,6 +1,6 @@
 import express from "express";
 const usersRouter = express.Router();
-import { loginUser, registerUser, addNeeds, searchUsers,addSkills, getInfo, searchNeeds, searchSkills } from "../controllers/usersCont.js";
+import { loginUser, registerUser, addNeeds,addSkills, getInfo, searchNeeds, searchSkills } from "../controllers/usersCont.js";
 
 usersRouter.post("/register",registerUser)
 usersRouter.post("/login",loginUser)
