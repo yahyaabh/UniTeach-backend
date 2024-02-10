@@ -94,11 +94,25 @@ const addSkills = async (req,res) => {
         
 }
 
-const searchUsers = async (req,res) =>{
+const searchSkills = async (req,res) =>{
     const message = req.body.message;
     
 
-    await pool.query(`SELECT * FROM USERS WHERE skills % '${message}' OR needs % '${message}';`,(error,results) => {
+    await pool.query(`SELECT * FROM USERS WHERE skills WHERE to_tsvector(skills) @@ to_tsquery('${message}');`,(error,results) => {
+        if(error) {
+            throw error
+        }
+        
+        else {
+            res.status(200).json(results.rows)  
+        }
+    })
+}
+const searchNeeds = async (req,res) =>{
+    const message = req.body.message;
+    
+
+    await pool.query(`SELECT * FROM USERS WHERE needs WHERE to_tsvector(needs) @@ to_tsquery('${message}');`,(error,results) => {
         if(error) {
             throw error
         }
@@ -121,4 +135,4 @@ const getInfo = async(req,res) => {
     })
 }
 
-export {registerUser, loginUser, addNeeds, searchUsers, addSkills, getInfo}
+export {registerUser, loginUser, addNeeds, searchNeeds,searchSkills, addSkills, getInfo}
